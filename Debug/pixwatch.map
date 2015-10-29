@@ -1570,7 +1570,7 @@ LOAD /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eab
 LOAD /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libnosys.a
 END GROUP
 
-.text           0x0000000000018000     0xe38c
+.text           0x0000000000018000     0xe390
  *(.Vectors)
  .Vectors       0x0000000000018000       0xc0 ./src/gcc_startup_nrf51.o
                 0x0000000000018000                __Vectors
@@ -1835,52 +1835,53 @@ END GROUP
                 0x00000000000261c8                m_service_context_load
                 0x00000000000261d8                m_service_context_apply
                 0x00000000000261e8                m_context_init_len
- .rodata        0x000000000002631c       0x20 ./src/main.o
- .rodata        0x000000000002633c       0x28 ./src/pstorage.o
- .rodata        0x0000000000026364       0x1c ./src/softdevice_handler.o
+ .rodata        0x000000000002631c       0x21 ./src/main.o
+ *fill*         0x000000000002633d        0x3 
+ .rodata        0x0000000000026340       0x28 ./src/pstorage.o
+ .rodata        0x0000000000026368       0x1c ./src/softdevice_handler.o
  .rodata.str1.1
-                0x0000000000026380        0x2 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libg_nano.a(lib_a-impure.o)
- *fill*         0x0000000000026382        0x2 
+                0x0000000000026384        0x2 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libg_nano.a(lib_a-impure.o)
+ *fill*         0x0000000000026386        0x2 
  .rodata._global_impure_ptr
-                0x0000000000026384        0x4 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libg_nano.a(lib_a-impure.o)
-                0x0000000000026384                _global_impure_ptr
+                0x0000000000026388        0x4 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libg_nano.a(lib_a-impure.o)
+                0x0000000000026388                _global_impure_ptr
  *(.eh_frame*)
- .eh_frame      0x0000000000026388        0x0 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
- .eh_frame      0x0000000000026388        0x4 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
+ .eh_frame      0x000000000002638c        0x0 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
+ .eh_frame      0x000000000002638c        0x4 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtend.o
 
-.glue_7         0x000000000002638c        0x0
+.glue_7         0x0000000000026390        0x0
  .glue_7        0x0000000000000000        0x0 linker stubs
 
-.glue_7t        0x000000000002638c        0x0
+.glue_7t        0x0000000000026390        0x0
  .glue_7t       0x0000000000000000        0x0 linker stubs
 
-.vfp11_veneer   0x000000000002638c        0x0
+.vfp11_veneer   0x0000000000026390        0x0
  .vfp11_veneer  0x0000000000000000        0x0 linker stubs
 
-.v4_bx          0x000000000002638c        0x0
+.v4_bx          0x0000000000026390        0x0
  .v4_bx         0x0000000000000000        0x0 linker stubs
 
-.iplt           0x000000000002638c        0x0
+.iplt           0x0000000000026390        0x0
  .iplt          0x0000000000000000        0x0 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
 
-.ARM.extab      0x000000000002638c        0x0
+.ARM.extab      0x0000000000026390        0x0
  *(.ARM.extab* .gnu.linkonce.armextab.*)
- .ARM.extab     0x000000000002638c        0x0 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
- .ARM.extab     0x000000000002638c        0x0 ./src/gcc_startup_nrf51.o
-                0x000000000002638c                __exidx_start = .
+ .ARM.extab     0x0000000000026390        0x0 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .ARM.extab     0x0000000000026390        0x0 ./src/gcc_startup_nrf51.o
+                0x0000000000026390                __exidx_start = .
 
-.ARM.exidx      0x000000000002638c        0x8
+.ARM.exidx      0x0000000000026390        0x8
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
- .ARM.exidx     0x000000000002638c        0x8 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
- .ARM.exidx     0x0000000000026394        0x0 ./src/gcc_startup_nrf51.o
+ .ARM.exidx     0x0000000000026390        0x8 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/crt0.o
+ .ARM.exidx     0x0000000000026398        0x0 ./src/gcc_startup_nrf51.o
                                           0x8 (size before relaxing)
-                0x0000000000026394                __exidx_end = .
-                0x0000000000026394                __etext = .
+                0x0000000000026398                __exidx_end = .
+                0x0000000000026398                __etext = .
 
-.rel.dyn        0x0000000000026394        0x0
+.rel.dyn        0x0000000000026398        0x0
  .rel.iplt      0x0000000000000000        0x0 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
 
-.data           0x0000000020002000       0x98 load address 0x0000000000026394
+.data           0x0000000020002000       0x98 load address 0x0000000000026398
                 0x0000000020002000                __data_start__ = .
  *(vtable)
  *(.data*)
@@ -1955,10 +1956,10 @@ END GROUP
                 0x0000000020002098                . = ALIGN (0x4)
                 0x0000000020002098                __data_end__ = .
 
-.igot.plt       0x0000000020002098        0x0 load address 0x000000000002642c
+.igot.plt       0x0000000020002098        0x0 load address 0x0000000000026430
  .igot.plt      0x0000000000000000        0x0 /usr/local/gcc_arm/gcc-arm-none-eabi-4_9-2015q3/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/crtbegin.o
 
-.bss            0x0000000020002098      0xdb8 load address 0x000000000002642c
+.bss            0x0000000020002098      0xdb8 load address 0x0000000000026430
                 0x0000000020002098                . = ALIGN (0x4)
                 0x0000000020002098                __bss_start__ = .
  *(.bss*)
@@ -2147,7 +2148,7 @@ OUTPUT(pixwatch.elf elf32-littlearm)
  .comment       0x0000000000000000       0x71 ./src/softdevice_handler.o
  .comment       0x0000000000000000       0x71 ./src/system_nrf51.o
 
-.debug_info     0x0000000000000000    0x26b21
+.debug_info     0x0000000000000000    0x26b0b
  .debug_info    0x0000000000000000      0xa10 ./src/SEGGER_RTT.o
  .debug_info    0x0000000000000a10      0x3e5 ./src/SEGGER_RTT_printf.o
  .debug_info    0x0000000000000df5      0x42f ./src/app_button.o
@@ -2162,16 +2163,16 @@ OUTPUT(pixwatch.elf elf32-littlearm)
  .debug_info    0x000000000001052d      0x93d ./src/bsp.o
  .debug_info    0x0000000000010e6a     0x2d28 ./src/bsp_btn_ble.o
  .debug_info    0x0000000000013b92     0x433f ./src/device_manager_peripheral.o
- .debug_info    0x0000000000017ed1       0x7b ./src/gcc_startup_nrf51.o
- .debug_info    0x0000000000017f4c     0x4855 ./src/main.o
- .debug_info    0x000000000001c7a1       0x68 ./src/nrf_assert.o
- .debug_info    0x000000000001c809      0x105 ./src/nrf_delay.o
- .debug_info    0x000000000001c90e     0x100e ./src/nrf_drv_common.o
- .debug_info    0x000000000001d91c     0x1fdf ./src/nrf_drv_gpiote.o
- .debug_info    0x000000000001f8fb     0x1e83 ./src/pstorage.o
- .debug_info    0x000000000002177e     0x1675 ./src/retarget.o
- .debug_info    0x0000000000022df3     0x3b7d ./src/softdevice_handler.o
- .debug_info    0x0000000000026970      0x1b1 ./src/system_nrf51.o
+ .debug_info    0x0000000000017ed1       0x65 ./src/gcc_startup_nrf51.o
+ .debug_info    0x0000000000017f36     0x4855 ./src/main.o
+ .debug_info    0x000000000001c78b       0x68 ./src/nrf_assert.o
+ .debug_info    0x000000000001c7f3      0x105 ./src/nrf_delay.o
+ .debug_info    0x000000000001c8f8     0x100e ./src/nrf_drv_common.o
+ .debug_info    0x000000000001d906     0x1fdf ./src/nrf_drv_gpiote.o
+ .debug_info    0x000000000001f8e5     0x1e83 ./src/pstorage.o
+ .debug_info    0x0000000000021768     0x1675 ./src/retarget.o
+ .debug_info    0x0000000000022ddd     0x3b7d ./src/softdevice_handler.o
+ .debug_info    0x000000000002695a      0x1b1 ./src/system_nrf51.o
 
 .debug_abbrev   0x0000000000000000     0x308a
  .debug_abbrev  0x0000000000000000      0x1d1 ./src/SEGGER_RTT.o
@@ -2375,79 +2376,79 @@ OUTPUT(pixwatch.elf elf32-littlearm)
  .debug_macro   0x000000000000e5e9       0x10 ./src/softdevice_handler.o
  .debug_macro   0x000000000000e5f9       0xc2 ./src/system_nrf51.o
 
-.debug_line     0x0000000000000000     0x9292
+.debug_line     0x0000000000000000     0x90fd
  .debug_line    0x0000000000000000      0x3e5 ./src/SEGGER_RTT.o
  .debug_line    0x00000000000003e5      0x3a1 ./src/SEGGER_RTT_printf.o
- .debug_line    0x0000000000000786      0x5ec ./src/app_button.o
- .debug_line    0x0000000000000d72      0x442 ./src/app_error.o
- .debug_line    0x00000000000011b4      0x84b ./src/app_timer.o
- .debug_line    0x00000000000019ff      0x27c ./src/app_trace.o
- .debug_line    0x0000000000001c7b      0x660 ./src/app_uart.o
- .debug_line    0x00000000000022db      0x64b ./src/ble_advdata.o
- .debug_line    0x0000000000002926      0x968 ./src/ble_advertising.o
- .debug_line    0x000000000000328e      0x64a ./src/ble_conn_params.o
- .debug_line    0x00000000000038d8      0x564 ./src/ble_srv_common.o
- .debug_line    0x0000000000003e3c      0x6d6 ./src/bsp.o
- .debug_line    0x0000000000004512      0x681 ./src/bsp_btn_ble.o
- .debug_line    0x0000000000004b93      0xecb ./src/device_manager_peripheral.o
- .debug_line    0x0000000000005a5e       0x79 ./src/gcc_startup_nrf51.o
- .debug_line    0x0000000000005ad7      0xbd0 ./src/main.o
- .debug_line    0x00000000000066a7      0x230 ./src/nrf_assert.o
- .debug_line    0x00000000000068d7      0x3c7 ./src/nrf_delay.o
- .debug_line    0x0000000000006c9e      0x49f ./src/nrf_drv_common.o
- .debug_line    0x000000000000713d      0x7d6 ./src/nrf_drv_gpiote.o
- .debug_line    0x0000000000007913      0x994 ./src/pstorage.o
- .debug_line    0x00000000000082a7      0x547 ./src/retarget.o
- .debug_line    0x00000000000087ee      0x77b ./src/softdevice_handler.o
- .debug_line    0x0000000000008f69      0x329 ./src/system_nrf51.o
+ .debug_line    0x0000000000000786      0x5d1 ./src/app_button.o
+ .debug_line    0x0000000000000d57      0x42a ./src/app_error.o
+ .debug_line    0x0000000000001181      0x836 ./src/app_timer.o
+ .debug_line    0x00000000000019b7      0x27c ./src/app_trace.o
+ .debug_line    0x0000000000001c33      0x648 ./src/app_uart.o
+ .debug_line    0x000000000000227b      0x63f ./src/ble_advdata.o
+ .debug_line    0x00000000000028ba      0x94d ./src/ble_advertising.o
+ .debug_line    0x0000000000003207      0x63b ./src/ble_conn_params.o
+ .debug_line    0x0000000000003842      0x558 ./src/ble_srv_common.o
+ .debug_line    0x0000000000003d9a      0x6bb ./src/bsp.o
+ .debug_line    0x0000000000004455      0x669 ./src/bsp_btn_ble.o
+ .debug_line    0x0000000000004abe      0xeb3 ./src/device_manager_peripheral.o
+ .debug_line    0x0000000000005971       0x79 ./src/gcc_startup_nrf51.o
+ .debug_line    0x00000000000059ea      0xba3 ./src/main.o
+ .debug_line    0x000000000000658d      0x22a ./src/nrf_assert.o
+ .debug_line    0x00000000000067b7      0x3bb ./src/nrf_delay.o
+ .debug_line    0x0000000000006b72      0x48d ./src/nrf_drv_common.o
+ .debug_line    0x0000000000006fff      0x7be ./src/nrf_drv_gpiote.o
+ .debug_line    0x00000000000077bd      0x982 ./src/pstorage.o
+ .debug_line    0x000000000000813f      0x535 ./src/retarget.o
+ .debug_line    0x0000000000008674      0x769 ./src/softdevice_handler.o
+ .debug_line    0x0000000000008ddd      0x320 ./src/system_nrf51.o
 
-.debug_str      0x0000000000000000    0x452dc
- .debug_str     0x0000000000000000     0x5488 ./src/SEGGER_RTT.o
-                                       0x55bc (size before relaxing)
- .debug_str     0x0000000000005488      0x362 ./src/SEGGER_RTT_printf.o
-                                       0x557f (size before relaxing)
- .debug_str     0x00000000000057ea    0x2eba7 ./src/app_button.o
-                                      0x337ac (size before relaxing)
- .debug_str     0x0000000000034391     0x10f7 ./src/app_error.o
-                                      0x30499 (size before relaxing)
- .debug_str     0x0000000000035488     0x2124 ./src/app_timer.o
-                                      0x348fb (size before relaxing)
- .debug_str     0x00000000000375ac       0x13 ./src/app_trace.o
-                                       0x61d9 (size before relaxing)
- .debug_str     0x00000000000375bf      0xa1a ./src/app_uart.o
-                                      0x32480 (size before relaxing)
- .debug_str     0x0000000000037fd9     0x613c ./src/ble_advdata.o
-                                       0xc23e (size before relaxing)
- .debug_str     0x000000000003e115     0x140a ./src/ble_advertising.o
-                                      0x39eb9 (size before relaxing)
- .debug_str     0x000000000003f51f      0x843 ./src/ble_conn_params.o
-                                       0xe20c (size before relaxing)
- .debug_str     0x000000000003fd62      0x1ce ./src/ble_srv_common.o
-                                       0xc1ad (size before relaxing)
- .debug_str     0x000000000003ff30      0x69b ./src/bsp.o
-                                      0x341ac (size before relaxing)
- .debug_str     0x00000000000405cb      0x461 ./src/bsp_btn_ble.o
-                                      0x36292 (size before relaxing)
- .debug_str     0x0000000000040a2c     0x1a52 ./src/device_manager_peripheral.o
-                                      0x3a66b (size before relaxing)
- .debug_str     0x000000000004247e      0xe6e ./src/main.o
-                                      0x3e04e (size before relaxing)
- .debug_str     0x00000000000432ec       0x14 ./src/nrf_assert.o
-                                       0x30cf (size before relaxing)
- .debug_str     0x0000000000043300       0x2d ./src/nrf_delay.o
-                                      0x31ae3 (size before relaxing)
- .debug_str     0x000000000004332d       0x46 ./src/nrf_drv_common.o
-                                      0x30401 (size before relaxing)
- .debug_str     0x0000000000043373      0xa19 ./src/nrf_drv_gpiote.o
-                                      0x32396 (size before relaxing)
- .debug_str     0x0000000000043d8c      0xf59 ./src/pstorage.o
-                                      0x343be (size before relaxing)
- .debug_str     0x0000000000044ce5      0x377 ./src/retarget.o
-                                      0x30f95 (size before relaxing)
- .debug_str     0x000000000004505c      0x192 ./src/softdevice_handler.o
-                                      0x35cf3 (size before relaxing)
- .debug_str     0x00000000000451ee       0xee ./src/system_nrf51.o
-                                      0x2eb3e (size before relaxing)
+.debug_str      0x0000000000000000    0x452c7
+ .debug_str     0x0000000000000000     0x5472 ./src/SEGGER_RTT.o
+                                       0x55a6 (size before relaxing)
+ .debug_str     0x0000000000005472      0x362 ./src/SEGGER_RTT_printf.o
+                                       0x5569 (size before relaxing)
+ .debug_str     0x00000000000057d4    0x2eba7 ./src/app_button.o
+                                      0x33796 (size before relaxing)
+ .debug_str     0x000000000003437b     0x10f7 ./src/app_error.o
+                                      0x30483 (size before relaxing)
+ .debug_str     0x0000000000035472     0x2124 ./src/app_timer.o
+                                      0x348e5 (size before relaxing)
+ .debug_str     0x0000000000037596       0x13 ./src/app_trace.o
+                                       0x61c3 (size before relaxing)
+ .debug_str     0x00000000000375a9      0xa1a ./src/app_uart.o
+                                      0x3246a (size before relaxing)
+ .debug_str     0x0000000000037fc3     0x613c ./src/ble_advdata.o
+                                       0xc228 (size before relaxing)
+ .debug_str     0x000000000003e0ff     0x140a ./src/ble_advertising.o
+                                      0x39ea3 (size before relaxing)
+ .debug_str     0x000000000003f509      0x843 ./src/ble_conn_params.o
+                                       0xe1f6 (size before relaxing)
+ .debug_str     0x000000000003fd4c      0x1ce ./src/ble_srv_common.o
+                                       0xc197 (size before relaxing)
+ .debug_str     0x000000000003ff1a      0x69b ./src/bsp.o
+                                      0x34196 (size before relaxing)
+ .debug_str     0x00000000000405b5      0x461 ./src/bsp_btn_ble.o
+                                      0x3627c (size before relaxing)
+ .debug_str     0x0000000000040a16     0x1a52 ./src/device_manager_peripheral.o
+                                      0x3a655 (size before relaxing)
+ .debug_str     0x0000000000042468      0xe6f ./src/main.o
+                                      0x3e039 (size before relaxing)
+ .debug_str     0x00000000000432d7       0x14 ./src/nrf_assert.o
+                                       0x30b9 (size before relaxing)
+ .debug_str     0x00000000000432eb       0x2d ./src/nrf_delay.o
+                                      0x31acd (size before relaxing)
+ .debug_str     0x0000000000043318       0x46 ./src/nrf_drv_common.o
+                                      0x303eb (size before relaxing)
+ .debug_str     0x000000000004335e      0xa19 ./src/nrf_drv_gpiote.o
+                                      0x32380 (size before relaxing)
+ .debug_str     0x0000000000043d77      0xf59 ./src/pstorage.o
+                                      0x343a8 (size before relaxing)
+ .debug_str     0x0000000000044cd0      0x377 ./src/retarget.o
+                                      0x30f7f (size before relaxing)
+ .debug_str     0x0000000000045047      0x192 ./src/softdevice_handler.o
+                                      0x35cdd (size before relaxing)
+ .debug_str     0x00000000000451d9       0xee ./src/system_nrf51.o
+                                      0x2eb28 (size before relaxing)
 
 .debug_frame    0x0000000000000000     0x6ba8
  .debug_frame   0x0000000000000000      0x2cc ./src/SEGGER_RTT.o

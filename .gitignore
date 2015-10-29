@@ -1,1 +1,5 @@
 .DS_Store
+Debug/src/**
+Debug/*.elf
+Debug/*.hex
+Debug/*.map
