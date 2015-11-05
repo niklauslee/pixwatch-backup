@@ -57,6 +57,7 @@
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.1896601426" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../src"/>
+									<listOptionValue builtIn="false" value="../config"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/util"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/pstorage"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/toolchain/gcc"/>
@@ -65,7 +66,6 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/common"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_advertising"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/softdevice/s110/headers"/>
-									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/config"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/trace"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/gpiote"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/device_manager"/>
@@ -91,6 +91,7 @@
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.182106952" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../src"/>
+									<listOptionValue builtIn="false" value="../config"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/util"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/pstorage"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/toolchain/gcc"/>
@@ -99,7 +100,6 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/common"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_advertising"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/softdevice/s110/headers"/>
-									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/config"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/trace"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/gpiote"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/device_manager"/>
@@ -168,6 +168,23 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/ble_advertising"/>
+						<entry excluding="ble_advdata_parser.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/common"/>
+						<entry excluding="device_manager_central.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/device_manager"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/common"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/gpiote"/>
+						<entry excluding="nrf_adc.c|nrf_ecb.c|nrf_nvmc.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/hal"/>
+						<entry excluding="pstorage_nosd.c|pstorage_raw.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/pstorage"/>
+						<entry excluding="app_uart_fifo.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/uart"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/button"/>
+						<entry excluding="app_timer_appsh.c|app_timer_ble_gzll.c|app_timer_freertos.c|app_timer_rtx.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/timer"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/trace"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/uart"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/util"/>
+						<entry excluding="softdevice_handler_appsh.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/softdevice/common/softdevice_handler"/>
+						<entry excluding="gcc|system_nrf51422.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/toolchain"/>
+						<entry excluding="core_cm0.h|core_cmFunc.h|core_cmInstr.h|gcc_nrf51_common.ld|Makefile.common|Makefile.posix|Makefile.windows|nrf51_xxaa.ld|nrf51_xxab.ld|nrf51_xxac.ld" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/toolchain/gcc"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/examples/bsp"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -330,4 +347,6 @@
 			<resource resourceType="PROJECT" workspacePath="/pixwatch"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

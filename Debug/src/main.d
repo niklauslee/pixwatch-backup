@@ -53,9 +53,9 @@ src/main.o: ../src/main.c \
  ../nrf51_sdk/components/libraries/util/sdk_os.h \
  ../nrf51_sdk/components/libraries/util/sdk_errors.h \
  ../nrf51_sdk/components/libraries/util/app_util.h \
- ../src/device_manager_cnfg.h \
+ ../config/device_manager_cnfg.h \
  ../nrf51_sdk/components/drivers_nrf/pstorage/pstorage.h \
- ../src/pstorage_platform.h \
+ ../config/pstorage_platform.h \
  ../nrf51_sdk/components/libraries/trace/app_trace.h \
  ../nrf51_sdk/examples/bsp/bsp.h ../nrf51_sdk/examples/bsp/boards.h \
  ../nrf51_sdk/components/libraries/button/app_button.h \
@@ -169,11 +169,11 @@ src/main.o: ../src/main.c \
 
 ../nrf51_sdk/components/libraries/util/app_util.h:
 
-../src/device_manager_cnfg.h:
+../config/device_manager_cnfg.h:
 
 ../nrf51_sdk/components/drivers_nrf/pstorage/pstorage.h:
 
-../src/pstorage_platform.h:
+../config/pstorage_platform.h:
 
 ../nrf51_sdk/components/libraries/trace/app_trace.h:
 

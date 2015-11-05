@@ -9,6 +9,23 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include src/subdir.mk
+-include nrf51_sdk/examples/bsp/subdir.mk
+-include nrf51_sdk/components/toolchain/gcc/subdir.mk
+-include nrf51_sdk/components/toolchain/subdir.mk
+-include nrf51_sdk/components/softdevice/common/softdevice_handler/subdir.mk
+-include nrf51_sdk/components/libraries/util/subdir.mk
+-include nrf51_sdk/components/libraries/uart/subdir.mk
+-include nrf51_sdk/components/libraries/trace/subdir.mk
+-include nrf51_sdk/components/libraries/timer/subdir.mk
+-include nrf51_sdk/components/libraries/button/subdir.mk
+-include nrf51_sdk/components/drivers_nrf/uart/subdir.mk
+-include nrf51_sdk/components/drivers_nrf/pstorage/subdir.mk
+-include nrf51_sdk/components/drivers_nrf/hal/subdir.mk
+-include nrf51_sdk/components/drivers_nrf/gpiote/subdir.mk
+-include nrf51_sdk/components/drivers_nrf/common/subdir.mk
+-include nrf51_sdk/components/ble/device_manager/subdir.mk
+-include nrf51_sdk/components/ble/common/subdir.mk
+-include nrf51_sdk/components/ble/ble_advertising/subdir.mk
 -include subdir.mk
 -include objects.mk
 
