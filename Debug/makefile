@@ -9,7 +9,6 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include src/subdir.mk
--include nrf51_sdk/examples/bsp/subdir.mk
 -include nrf51_sdk/components/toolchain/gcc/subdir.mk
 -include nrf51_sdk/components/toolchain/subdir.mk
 -include nrf51_sdk/components/softdevice/common/softdevice_handler/subdir.mk

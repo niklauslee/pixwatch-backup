@@ -33,6 +33,5 @@ nrf51_sdk/components/libraries/util \
 nrf51_sdk/components/softdevice/common/softdevice_handler \
 nrf51_sdk/components/toolchain/gcc \
 nrf51_sdk/components/toolchain \
-nrf51_sdk/examples/bsp \
 src \
 
