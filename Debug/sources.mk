@@ -26,6 +26,7 @@ nrf51_sdk/components/drivers_nrf/hal \
 nrf51_sdk/components/drivers_nrf/pstorage \
 nrf51_sdk/components/drivers_nrf/uart \
 nrf51_sdk/components/libraries/button \
+nrf51_sdk/components/libraries/gpiote \
 nrf51_sdk/components/libraries/timer \
 nrf51_sdk/components/libraries/trace \
 nrf51_sdk/components/libraries/uart \

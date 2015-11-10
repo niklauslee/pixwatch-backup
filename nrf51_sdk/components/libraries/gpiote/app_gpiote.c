@@ -32,10 +32,10 @@ typedef struct
 STATIC_ASSERT(sizeof(gpiote_user_t) <= GPIOTE_USER_NODE_SIZE);
 STATIC_ASSERT(sizeof(gpiote_user_t) % 4 == 0);
 
-static uint32_t        m_enabled_users_mask;          /**< Mask for tracking which users are enabled. */
-static uint8_t         m_user_array_size;             /**< Size of user array. */
-static uint8_t         m_user_count;                  /**< Number of registered users. */
-static gpiote_user_t * mp_users = NULL;               /**< Array of GPIOTE users. */
+uint32_t        m_enabled_users_mask;          /**< Mask for tracking which users are enabled. */
+uint8_t         m_user_array_size;             /**< Size of user array. */
+uint8_t         m_user_count;                  /**< Number of registered users. */
+gpiote_user_t * mp_users = NULL;               /**< Array of GPIOTE users. */
 
 
 /**@brief Function for toggling sense level for specified pins.
@@ -43,7 +43,7 @@ static gpiote_user_t * mp_users = NULL;               /**< Array of GPIOTE users
  * @param[in]   p_user   Pointer to user structure.
  * @param[in]   pins     Bitmask specifying for which pins the sense level is to be toggled.
  */
-static void sense_level_toggle(gpiote_user_t * p_user, uint32_t pins)
+void sense_level_toggle(gpiote_user_t * p_user, uint32_t pins)
 {
     uint32_t pin_no;
 
@@ -74,7 +74,7 @@ static void sense_level_toggle(gpiote_user_t * p_user, uint32_t pins)
 }
 
 
-static void sense_level_disable(uint32_t pins)
+void sense_level_disable(uint32_t pins)
 {
     uint32_t pin_no;
 
@@ -86,78 +86,6 @@ static void sense_level_disable(uint32_t pins)
         {
             NRF_GPIO->PIN_CNF[pin_no] &= ~GPIO_PIN_CNF_SENSE_Msk;
             NRF_GPIO->PIN_CNF[pin_no] |= GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos;
-        }
-    }
-}
-
-
-
-/**@brief Function for handling the GPIOTE interrupt.
- */
-void GPIOTE_IRQHandler(void)
-{
-    uint8_t  i;
-    uint32_t pins_changed        = 1;
-    uint32_t pins_sense_enabled  = 0;
-    uint32_t pins_sense_disabled = 0;
-    uint32_t pins_state          = NRF_GPIO->IN;
-
-    // Clear event.
-    NRF_GPIOTE->EVENTS_PORT = 0;
-
-    while (pins_changed)
-    {
-        // Check all users.
-        for (i = 0; i < m_user_count; i++)
-        {
-            gpiote_user_t * p_user = &mp_users[i];
-
-            // Check if user is enabled.
-            if (((1 << i) & m_enabled_users_mask) != 0)
-            {
-                uint32_t transition_pins;
-                uint32_t event_low_to_high = 0;
-                uint32_t event_high_to_low = 0;
-
-                pins_sense_enabled |= (p_user->pins_mask & ~pins_sense_disabled);
-
-                // Find set of pins on which there has been a transition.
-                transition_pins = (pins_state ^ ~p_user->sense_high_pins) & (p_user->pins_mask & ~pins_sense_disabled);
-
-                sense_level_disable(transition_pins);
-                pins_sense_disabled |= transition_pins;
-                pins_sense_enabled  &= ~pins_sense_disabled;
-
-                // Call user event handler if an event has occurred.
-                event_high_to_low |= (~pins_state & p_user->pins_high_to_low_mask) & transition_pins;
-                event_low_to_high |= (pins_state & p_user->pins_low_to_high_mask) & transition_pins;
-
-                if ((event_low_to_high | event_high_to_low) != 0)
-                {
-                    p_user->event_handler(event_low_to_high, event_high_to_low);
-                }
-            }
-        }
-
-        // Second read after setting sense.
-        // Check if any pins with sense enabled have changed while serving this interrupt.
-        pins_changed = (NRF_GPIO->IN ^ pins_state) & pins_sense_enabled;
-        pins_state  ^= pins_changed;
-    }
-
-    // Now re-enabling sense on all pins that have sense disabled.
-    // Note: a new interrupt might fire immediatly.
-    for (i = 0; i < m_user_count; i++)
-    {
-        gpiote_user_t * p_user = &mp_users[i];
-
-        // Check if user is enabled.
-        if (((1 << i) & m_enabled_users_mask) != 0)
-        {
-            if (pins_sense_disabled & p_user->pins_mask)
-            {
-                sense_level_toggle(p_user, pins_sense_disabled & p_user->pins_mask);
-            }
         }
     }
 }

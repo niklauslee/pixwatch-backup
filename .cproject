@@ -74,7 +74,7 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/timer"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/hal"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/button"/>
-									<listOptionValue builtIn="false" value="../nrf51_sdk/examples/bsp"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/gpiote"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.560851127" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -107,7 +107,7 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/timer"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/hal"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/button"/>
-									<listOptionValue builtIn="false" value="../nrf51_sdk/examples/bsp"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/gpiote"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std.699498883" name="Language standard" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std" useByScannerDiscovery="true" value="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std.gnu99" valueType="enumerated"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.74166743" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -175,6 +175,7 @@
 						<entry excluding="pstorage_nosd.c|pstorage_raw.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/pstorage"/>
 						<entry excluding="app_uart_fifo.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/uart"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/button"/>
+						<entry excluding="app_gpiote_fast_detect.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/gpiote"/>
 						<entry excluding="app_timer_appsh.c|app_timer_ble_gzll.c|app_timer_freertos.c|app_timer_rtx.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/timer"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/trace"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/uart"/>

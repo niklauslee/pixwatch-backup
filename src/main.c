@@ -10,11 +10,12 @@
 #include "ble_advdata.h"
 #include "ble_advertising.h"
 #include "ble_conn_params.h"
-#include "boards.h"
 #include "softdevice_handler.h"
 #include "app_timer.h"
 #include "device_manager.h"
 #include "pstorage.h"
+#include "app_button.h"
+#include "app_gpiote.h"
 #include "app_trace.h"
 
 #define DEVICE_NAME                      "PixWatch"                                 /**< Name of device. Will be included in the advertising data. */
@@ -35,6 +36,18 @@
 #define NEXT_CONN_PARAMS_UPDATE_DELAY    APP_TIMER_TICKS(30000, APP_TIMER_PRESCALER)/**< Time between each call to sd_ble_gap_conn_param_update after the first call (30 seconds). */
 #define MAX_CONN_PARAMS_UPDATE_COUNT     3                                          /**< Number of attempts before giving up the connection parameter negotiation. */
 
+#define BUTTON_1       17
+#define BUTTON_2       18
+#define BUTTON_3       19
+#define BUTTON_4       20
+
+#define LED_1          21
+#define LED_2          22
+#define LED_3          23
+#define LED_4          24
+
+#define BUTTON_DEBOUNCE_DELAY			50
+
 static dm_application_instance_t         m_app_handle;                              /**< Application identifier allocated by device manager */
 
 static uint16_t                          m_conn_handle = BLE_CONN_HANDLE_INVALID;   /**< Handle of the current connection. */
@@ -49,7 +62,7 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
 
 static void timers_init(void)
 {
-    APP_TIMER_INIT(APP_TIMER_PRESCALER, APP_TIMER_MAX_TIMERS, APP_TIMER_OP_QUEUE_SIZE, false);
+
 }
 
 static void gap_params_init(void)
@@ -254,18 +267,72 @@ static void advertising_init(void)
     APP_ERROR_CHECK(err_code);
 }
 
+static void button_handler(uint8_t pin_no, uint8_t button_action)
+{
+    if(button_action == APP_BUTTON_PUSH)
+    {
+        switch(pin_no)
+        {
+            case BUTTON_1:
+                nrf_gpio_pin_toggle(LED_1);
+                break;
+            case BUTTON_2:
+                nrf_gpio_pin_toggle(LED_2);
+                break;
+            case BUTTON_3:
+                nrf_gpio_pin_toggle(LED_3);
+                break;
+            case BUTTON_4:
+                nrf_gpio_pin_toggle(LED_4);
+                break;
+            default:
+                break;
+        }
+    }
+}
 
 int main(void)
 {
     uint32_t err_code;
 
+    nrf_gpio_cfg_output(LED_1);
+    nrf_gpio_cfg_output(LED_2);
+    nrf_gpio_cfg_output(LED_3);
+    nrf_gpio_cfg_output(LED_4);
+    nrf_gpio_pin_set(LED_1);
+    nrf_gpio_pin_set(LED_2);
+    nrf_gpio_pin_set(LED_3);
+    nrf_gpio_pin_set(LED_4);
+
+
+    NRF_CLOCK->LFCLKSRC            = (CLOCK_LFCLKSRC_SRC_Xtal << CLOCK_LFCLKSRC_SRC_Pos);
+    NRF_CLOCK->EVENTS_LFCLKSTARTED = 0;
+    NRF_CLOCK->TASKS_LFCLKSTART    = 1;
+    while (NRF_CLOCK->EVENTS_LFCLKSTARTED == 0); // Wait for clock to start
+
+    static app_button_cfg_t p_button[] = {  {BUTTON_1, APP_BUTTON_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, button_handler},
+                                            {BUTTON_2, APP_BUTTON_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, button_handler},
+                                            {BUTTON_3, APP_BUTTON_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, button_handler},
+                                            {BUTTON_4, APP_BUTTON_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, button_handler}};
+
+
     // Initialize.
-    timers_init();
+    APP_TIMER_INIT(APP_TIMER_PRESCALER, APP_TIMER_MAX_TIMERS, APP_TIMER_OP_QUEUE_SIZE, false);
+
+    APP_GPIOTE_INIT(1);
+
+    err_code = app_button_init(p_button, sizeof(p_button) / sizeof(p_button[0]), BUTTON_DEBOUNCE_DELAY);
+    APP_ERROR_CHECK(err_code);
+
+    err_code = app_button_enable();
+    APP_ERROR_CHECK(err_code);
+
     ble_stack_init();
     device_manager_init();
     gap_params_init();
     advertising_init();
     conn_params_init();
+
 
     // Start execution.
     err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
