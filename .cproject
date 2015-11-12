@@ -53,6 +53,7 @@
 									<listOptionValue builtIn="false" value="NRF51"/>
 									<listOptionValue builtIn="false" value="BOARD_PCA10028"/>
 									<listOptionValue builtIn="false" value="NRF51822_QFAA_CA"/>
+									<listOptionValue builtIn="false" value="SWI_DISABLE0"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.1896601426" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../src"/>
@@ -64,6 +65,8 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/common"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/common"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_advertising"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_services/ble_cts_c"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_db_discovery"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/softdevice/s110/headers"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/trace"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/gpiote"/>
@@ -75,6 +78,8 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/hal"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/button"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/gpiote"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/scheduler"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/fifo"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.560851127" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -86,6 +91,7 @@
 									<listOptionValue builtIn="false" value="NRF51"/>
 									<listOptionValue builtIn="false" value="BOARD_PCA10028"/>
 									<listOptionValue builtIn="false" value="NRF51822_QFAA_CA"/>
+									<listOptionValue builtIn="false" value="SWI_DISABLE0"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.182106952" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../src"/>
@@ -97,6 +103,8 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/common"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/common"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_advertising"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_services/ble_cts_c"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_db_discovery"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/softdevice/s110/headers"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/trace"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/gpiote"/>
@@ -108,6 +116,8 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/hal"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/button"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/gpiote"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/scheduler"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/fifo"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std.699498883" name="Language standard" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std" useByScannerDiscovery="true" value="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std.gnu99" valueType="enumerated"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.74166743" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -167,16 +177,20 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/ble_advertising"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/ble_db_discovery"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/ble_services/ble_cts_c"/>
 						<entry excluding="ble_advdata_parser.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/common"/>
 						<entry excluding="device_manager_central.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/device_manager"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/common"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/gpiote"/>
 						<entry excluding="nrf_adc.c|nrf_ecb.c|nrf_nvmc.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/hal"/>
 						<entry excluding="pstorage_nosd.c|pstorage_raw.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/pstorage"/>
-						<entry excluding="app_uart_fifo.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/uart"/>
+						<entry excluding="app_uart.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/uart"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/button"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/fifo"/>
 						<entry excluding="app_gpiote_fast_detect.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/gpiote"/>
-						<entry excluding="app_timer_appsh.c|app_timer_ble_gzll.c|app_timer_freertos.c|app_timer_rtx.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/timer"/>
+						<entry excluding="app_scheduler_serconn.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/scheduler"/>
+						<entry excluding="app_timer_ble_gzll.c|app_timer_freertos.c|app_timer_rtx.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/timer"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/trace"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/uart"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/util"/>

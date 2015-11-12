@@ -16,7 +16,9 @@ RM := rm -rf
 -include nrf51_sdk/components/libraries/uart/subdir.mk
 -include nrf51_sdk/components/libraries/trace/subdir.mk
 -include nrf51_sdk/components/libraries/timer/subdir.mk
+-include nrf51_sdk/components/libraries/scheduler/subdir.mk
 -include nrf51_sdk/components/libraries/gpiote/subdir.mk
+-include nrf51_sdk/components/libraries/fifo/subdir.mk
 -include nrf51_sdk/components/libraries/button/subdir.mk
 -include nrf51_sdk/components/drivers_nrf/uart/subdir.mk
 -include nrf51_sdk/components/drivers_nrf/pstorage/subdir.mk
@@ -25,6 +27,8 @@ RM := rm -rf
 -include nrf51_sdk/components/drivers_nrf/common/subdir.mk
 -include nrf51_sdk/components/ble/device_manager/subdir.mk
 -include nrf51_sdk/components/ble/common/subdir.mk
+-include nrf51_sdk/components/ble/ble_services/ble_cts_c/subdir.mk
+-include nrf51_sdk/components/ble/ble_db_discovery/subdir.mk
 -include nrf51_sdk/components/ble/ble_advertising/subdir.mk
 -include subdir.mk
 -include objects.mk
