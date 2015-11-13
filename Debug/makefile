@@ -27,7 +27,6 @@ RM := rm -rf
 -include nrf51_sdk/components/drivers_nrf/common/subdir.mk
 -include nrf51_sdk/components/ble/device_manager/subdir.mk
 -include nrf51_sdk/components/ble/common/subdir.mk
--include nrf51_sdk/components/ble/ble_services/ble_cts_c/subdir.mk
 -include nrf51_sdk/components/ble/ble_db_discovery/subdir.mk
 -include nrf51_sdk/components/ble/ble_advertising/subdir.mk
 -include subdir.mk

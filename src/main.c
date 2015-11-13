@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <string.h>
+#include <time.h>
 #include "nordic_common.h"
 #include "nrf.h"
 #include "app_error.h"
@@ -10,7 +11,9 @@
 #include "ble_advdata.h"
 #include "ble_advertising.h"
 #include "ble_conn_params.h"
-#include "ble_cts_c.h"
+
+#include "ble_pixwatch_c.h"
+
 #include "ble_db_discovery.h"
 #include "softdevice_handler.h"
 #include "app_scheduler.h"
@@ -23,8 +26,8 @@
 #include "app_trace.h"
 #include "app_uart.h"
 
-#define DEVICE_NAME                      "PixWatch"                                 /**< Name of device. Will be included in the advertising data. */
-#define MANUFACTURER_NAME                "MKLab"                                    /**< Manufacturer. Will be passed to Device Information Service. */
+#define DEVICE_NAME                     "Pix"                                 /**< Name of device. Will be included in the advertising data. */
+#define MANUFACTURER_NAME               "MKLab"                                    /**< Manufacturer. Will be passed to Device Information Service. */
 #define APP_ADV_FAST_INTERVAL           0x0028       /**< Fast advertising interval (in units of 0.625 ms). The default value corresponds to 25 ms. */
 #define APP_ADV_SLOW_INTERVAL           0x0C80       /**< Slow advertising interval (in units of 0.625 ms). The default value corresponds to 2 seconds. */
 #define APP_ADV_SLOW_TIMEOUT            180          /**< The duration of the slow advertising period (in seconds). */
@@ -69,44 +72,21 @@
 #define SCHED_MAX_EVENT_DATA_SIZE sizeof(app_timer_event_t)            /**< Maximum size of scheduler events. Note that scheduler BLE stack events do not contain any data, as the events are being pulled from the stack in the event handler. */
 #define SCHED_QUEUE_SIZE          10                                   /**< Maximum number of events in the scheduler queue. */
 
+
 static dm_application_instance_t         m_app_handle;                              /**< Application identifier allocated by device manager */
 
 static uint16_t                          m_conn_handle = BLE_CONN_HANDLE_INVALID;   /**< Handle of the current connection. */
 
 static ble_db_discovery_t        m_ble_db_discovery;                   /**< Structure used to identify the DB Discovery module. */
-static ble_cts_c_t               m_cts;                                /**< Structure to store the data of the current time service. */
+static ble_pixwatch_c_t          m_pixwatch;                           /**< Structure to store the data of the pixwatch service. */
 
 static app_timer_id_t m_sec_req_timer_id;                              /**< Security request timer. */
 
 static dm_handle_t               m_peer_handle;
 
-static const char * day_of_week[8]    = {"Unknown",
-                                         "Monday",
-                                         "Tuesday",
-                                         "Wednesday",
-                                         "Thursday",
-                                         "Friday",
-                                         "Saturday",
-                                         "Sunday"};
-
-static const char * month_of_year[13] = {"Unknown",
-                                         "January",
-                                         "February",
-                                         "March",
-                                         "April",
-                                         "May",
-                                         "June",
-                                         "July",
-                                         "August",
-                                         "September",
-                                         "October",
-                                         "November",
-                                         "December"};
-
-
 
 // YOUR_JOB: Use UUIDs for service(s) used in your application.
-static ble_uuid_t m_adv_uuids[] = {{BLE_UUID_CURRENT_TIME_SERVICE, BLE_UUID_TYPE_BLE}}; /**< Universally unique service identifiers. */
+static ble_uuid_t m_adv_uuids[] = {{PIXWATCH_UUID_SERVICE, BLE_UUID_TYPE_VENDOR_BEGIN}}; /**< Universally unique service identifiers. */
 
 void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
 {
@@ -140,9 +120,7 @@ static void timers_init(void)
     APP_TIMER_APPSH_INIT(APP_TIMER_PRESCALER, APP_TIMER_MAX_TIMERS, APP_TIMER_OP_QUEUE_SIZE, true);
 
     // Create security request timer.
-    err_code = app_timer_create(&m_sec_req_timer_id,
-                                APP_TIMER_MODE_SINGLE_SHOT,
-                                sec_req_timeout_handler);
+    err_code = app_timer_create(&m_sec_req_timer_id, APP_TIMER_MODE_SINGLE_SHOT, sec_req_timeout_handler);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -170,83 +148,40 @@ static void gap_params_init(void)
     APP_ERROR_CHECK(err_code);
 }
 
-static void current_time_print(ble_cts_c_evt_t * p_evt)
-{
-    printf("\nCurrent Time:\n");
-    printf("\nDate:\n");
 
-    printf("\tDay of week   %s\n", day_of_week[p_evt->
-                                               params.
-                                               current_time.
-                                               exact_time_256.
-                                               day_date_time.
-                                               day_of_week]);
-
-    if (p_evt->params.current_time.exact_time_256.day_date_time.date_time.day == 0)
-    {
-        printf("\tDay of month  Unknown\n");
-    }
-    else
-    {
-        printf("\tDay of month  %i\n",
-               p_evt->params.current_time.exact_time_256.day_date_time.date_time.day);
-    }
-
-    printf("\tMonth of year %s\n",
-           month_of_year[p_evt->params.current_time.exact_time_256.day_date_time.date_time.month]);
-    if (p_evt->params.current_time.exact_time_256.day_date_time.date_time.year == 0)
-    {
-        printf("\tYear          Unknown\n");
-    }
-    else
-    {
-        printf("\tYear          %i\n",
-               p_evt->params.current_time.exact_time_256.day_date_time.date_time.year);
-    }
-    printf("\nTime:\n");
-    printf("\tHours     %i\n",
-           p_evt->params.current_time.exact_time_256.day_date_time.date_time.hours);
-    printf("\tMinutes   %i\n",
-           p_evt->params.current_time.exact_time_256.day_date_time.date_time.minutes);
-    printf("\tSeconds   %i\n",
-           p_evt->params.current_time.exact_time_256.day_date_time.date_time.seconds);
-    printf("\tFractions %i/256 of a second\n",
-           p_evt->params.current_time.exact_time_256.fractions256);
-
-    printf("\nAdjust reason:\n");
-    printf("\tDaylight savings %x\n",
-           p_evt->params.current_time.adjust_reason.change_of_daylight_savings_time);
-    printf("\tTime zone        %x\n",
-           p_evt->params.current_time.adjust_reason.change_of_time_zone);
-    printf("\tExternal update  %x\n",
-           p_evt->params.current_time.adjust_reason.external_reference_time_update);
-    printf("\tManual update    %x\n",
-           p_evt->params.current_time.adjust_reason.manual_time_update);
-}
-
-static void on_cts_c_evt(ble_cts_c_t * p_cts, ble_cts_c_evt_t * p_evt)
+static void on_pixwatch_c_evt(ble_pixwatch_c_t * p_pixwatch, ble_pixwatch_c_evt_t * p_evt)
 {
     switch (p_evt->evt_type)
     {
-        case BLE_CTS_C_EVT_DISCOVERY_COMPLETE:
+        case BLE_PIXWATCH_C_EVT_DISCOVERY_COMPLETE:
             printf("Current Time Service discovered on server.\n");
             break;
 
-        case BLE_CTS_C_EVT_SERVICE_NOT_FOUND:
+        case BLE_PIXWATCH_C_EVT_SERVICE_NOT_FOUND:
             printf("Current Time Service not found on server.\n");
             break;
 
-        case BLE_CTS_C_EVT_DISCONN_COMPLETE:
+        case BLE_PIXWATCH_C_EVT_DISCONN_COMPLETE:
             printf("Disconnect Complete.\n");
             break;
 
-        case BLE_CTS_C_EVT_CURRENT_TIME:
+        case BLE_PIXWATCH_C_EVT_LOCAL_TIME:
             printf("Current Time received.\n");
-            current_time_print(p_evt);
-            break;
 
-        case BLE_CTS_C_EVT_INVALID_TIME:
-            printf("Invalid Time received.\n");
+        	time_t timer;
+        	struct tm *t;
+        	timer = p_evt->local_time;
+        	t = localtime(&timer);
+
+            printf("Local Time (Unix Time + Local Offset): %d\n", timer);
+            printf("Year: %d\n",   t->tm_year + 1900);
+            printf("Month: %d\n",   t->tm_mon + 1);
+            printf("Day: %d\n\n", t->tm_mday);
+            printf("Hour: %d\n",   t->tm_hour);
+            printf("Minute: %d\n",   t->tm_min);
+            printf("Second: %d\n\n", t->tm_sec);
+            printf("Day of Week: %d\n", t->tm_wday); // Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6
+
             break;
 
         default:
@@ -255,21 +190,9 @@ static void on_cts_c_evt(ble_cts_c_t * p_cts, ble_cts_c_evt_t * p_evt)
 }
 
 
-static void current_time_error_handler(uint32_t nrf_error)
+static void pixwatch_error_handler(uint32_t nrf_error)
 {
     APP_ERROR_HANDLER(nrf_error);
-}
-
-
-static void services_init(void)
-{
-    uint32_t         err_code;
-    ble_cts_c_init_t cts_init_obj;
-
-    cts_init_obj.evt_handler   = on_cts_c_evt;
-    cts_init_obj.error_handler = current_time_error_handler;
-    err_code                   = ble_cts_c_init(&m_cts, &cts_init_obj);
-    APP_ERROR_CHECK(err_code);
 }
 
 
@@ -329,21 +252,21 @@ static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
 
         case BLE_ADV_EVT_WHITELIST_REQUEST:
         {
-                    ble_gap_whitelist_t whitelist;
-                    ble_gap_addr_t    * p_whitelist_addr[BLE_GAP_WHITELIST_ADDR_MAX_COUNT];
-                    ble_gap_irk_t     * p_whitelist_irk[BLE_GAP_WHITELIST_IRK_MAX_COUNT];
+            ble_gap_whitelist_t whitelist;
+            ble_gap_addr_t    * p_whitelist_addr[BLE_GAP_WHITELIST_ADDR_MAX_COUNT];
+            ble_gap_irk_t     * p_whitelist_irk[BLE_GAP_WHITELIST_IRK_MAX_COUNT];
 
-                    whitelist.addr_count = BLE_GAP_WHITELIST_ADDR_MAX_COUNT;
-                    whitelist.irk_count  = BLE_GAP_WHITELIST_IRK_MAX_COUNT;
-                    whitelist.pp_addrs   = p_whitelist_addr;
-                    whitelist.pp_irks    = p_whitelist_irk;
+            whitelist.addr_count = BLE_GAP_WHITELIST_ADDR_MAX_COUNT;
+            whitelist.irk_count  = BLE_GAP_WHITELIST_IRK_MAX_COUNT;
+            whitelist.pp_addrs   = p_whitelist_addr;
+            whitelist.pp_irks    = p_whitelist_irk;
 
-                    err_code = dm_whitelist_create(&m_app_handle, &whitelist);
-                    APP_ERROR_CHECK(err_code);
+            err_code = dm_whitelist_create(&m_app_handle, &whitelist);
+            APP_ERROR_CHECK(err_code);
 
-                    err_code = ble_advertising_whitelist_reply(&whitelist);
-                    APP_ERROR_CHECK(err_code);
-                    break;
+            err_code = ble_advertising_whitelist_reply(&whitelist);
+            APP_ERROR_CHECK(err_code);
+            break;
         }
         default:
             break;
@@ -374,7 +297,7 @@ static void ble_evt_dispatch(ble_evt_t * p_ble_evt)
             break;
     }
 
-    ble_cts_c_on_ble_evt(&m_cts, p_ble_evt);
+    ble_pixwatch_c_on_ble_evt(&m_pixwatch, p_ble_evt);
     ble_advertising_on_ble_evt(p_ble_evt);
 }
 
@@ -500,9 +423,32 @@ static void device_manager_init()
     register_param.sec_param.min_key_size = 7;
     register_param.sec_param.max_key_size = 16;
     register_param.evt_handler            = device_manager_evt_handler;
-    register_param.service_type           = DM_PROTOCOL_CNTXT_GATT_SRVR_ID;
+    register_param.service_type           = DM_PROTOCOL_CNTXT_GATT_CLI_ID;
 
     err_code = dm_register(&m_app_handle, &register_param);
+    APP_ERROR_CHECK(err_code);
+}
+
+
+static void services_init(void)
+{
+    uint32_t         err_code;
+    ble_pixwatch_c_init_t pixwatch_init_obj;
+
+    uint8_t m_pixwatch_uuid_type;
+    ble_uuid_t service_uuid;
+
+
+    err_code = sd_ble_uuid_vs_add(&ble_pixwatch_base_uuid128, &m_pixwatch_uuid_type);
+    APP_ERROR_CHECK(err_code);
+
+    err_code = sd_ble_uuid_vs_add(&ble_pixwatch_local_time_base_uuid128, &service_uuid.type);
+    APP_ERROR_CHECK(err_code);
+
+    pixwatch_init_obj.evt_handler   = on_pixwatch_c_evt;
+    pixwatch_init_obj.error_handler = pixwatch_error_handler;
+
+    err_code = ble_pixwatch_c_init(&m_pixwatch, &pixwatch_init_obj);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -518,8 +464,8 @@ static void advertising_init(void)
     advdata.name_type               = BLE_ADVDATA_FULL_NAME;
     advdata.include_appearance      = true;
     advdata.flags                   = BLE_GAP_ADV_FLAGS_LE_ONLY_LIMITED_DISC_MODE;
-    advdata.uuids_complete.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
-    advdata.uuids_complete.p_uuids  = m_adv_uuids;
+    advdata.uuids_solicited.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
+    advdata.uuids_solicited.p_uuids  = m_adv_uuids;
 
     ble_adv_modes_config_t options = {0};
     options.ble_adv_whitelist_enabled = BLE_ADV_WHITELIST_ENABLED;
@@ -540,6 +486,7 @@ static void button_handler(uint8_t pin_no, uint8_t button_action)
     if(button_action == APP_BUTTON_PUSH)
     {
     	uint32_t err_code;
+
         switch(pin_no)
         {
             case BUTTON_1:
@@ -547,9 +494,10 @@ static void button_handler(uint8_t pin_no, uint8_t button_action)
                 nrf_gpio_pin_toggle(LED_1);
                 if (m_conn_handle != BLE_CONN_HANDLE_INVALID)
                 {
-                    err_code = ble_cts_c_current_time_read(&m_cts);
+                    err_code = ble_pixwatch_c_local_time_read(&m_pixwatch);
                     if (err_code == NRF_ERROR_NOT_FOUND)
                     {
+                    	printf("ERROR: %d\n", err_code);
                         printf("Current Time Service is not discovered.\r\n");
                     }
                 }
@@ -561,10 +509,20 @@ static void button_handler(uint8_t pin_no, uint8_t button_action)
             case BUTTON_3:
             	printf("button_3 pressed.\n");
                 nrf_gpio_pin_toggle(LED_3);
+
+                uint32_t current_tick;
+            	app_timer_cnt_get(&current_tick);
+            	printf("RTC Counter: %d\n", current_tick);
+
                 break;
             case BUTTON_4:
             	printf("button_4 pressed.\n");
                 nrf_gpio_pin_toggle(LED_4);
+
+                time_t t0;
+                uint32_t sz = sizeof(t0);
+                printf("Size of time_t: %d\n", sz);
+
                 break;
             default:
                 break;
@@ -617,16 +575,15 @@ int main(void)
     APP_ERROR_CHECK(err_code);
 
     uart_init();
-    printf("CTS Start!\n");
+    printf("PixWatch Start!\n");
     ble_stack_init();
     device_manager_init();
     db_discovery_init();
     scheduler_init();
     gap_params_init();
-    advertising_init();
     services_init();
+    advertising_init();
     conn_params_init();
-
 
     // Start execution.
     err_code = ble_advertising_start(BLE_ADV_MODE_FAST);

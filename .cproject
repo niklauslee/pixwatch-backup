@@ -65,7 +65,6 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/common"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/common"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_advertising"/>
-									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_services/ble_cts_c"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_db_discovery"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/softdevice/s110/headers"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/trace"/>
@@ -103,7 +102,6 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/common"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/common"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_advertising"/>
-									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_services/ble_cts_c"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/ble_db_discovery"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/softdevice/s110/headers"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/trace"/>
@@ -178,7 +176,6 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/ble_advertising"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/ble_db_discovery"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/ble_services/ble_cts_c"/>
 						<entry excluding="ble_advdata_parser.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/common"/>
 						<entry excluding="device_manager_central.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/ble/device_manager"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/common"/>

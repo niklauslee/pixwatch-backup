@@ -19,7 +19,6 @@ S_UPPER_DEPS :=
 SUBDIRS := \
 nrf51_sdk/components/ble/ble_advertising \
 nrf51_sdk/components/ble/ble_db_discovery \
-nrf51_sdk/components/ble/ble_services/ble_cts_c \
 nrf51_sdk/components/ble/common \
 nrf51_sdk/components/ble/device_manager \
 nrf51_sdk/components/drivers_nrf/common \
