@@ -26,7 +26,7 @@
 #include "app_trace.h"
 #include "app_uart.h"
 
-#define DEVICE_NAME                     "Pix"                                 /**< Name of device. Will be included in the advertising data. */
+#define DEVICE_NAME                     "PixWatch"                                 /**< Name of device. Will be included in the advertising data. */
 #define MANUFACTURER_NAME               "MKLab"                                    /**< Manufacturer. Will be passed to Device Information Service. */
 #define APP_ADV_FAST_INTERVAL           0x0028       /**< Fast advertising interval (in units of 0.625 ms). The default value corresponds to 25 ms. */
 #define APP_ADV_SLOW_INTERVAL           0x0C80       /**< Slow advertising interval (in units of 0.625 ms). The default value corresponds to 2 seconds. */
@@ -48,6 +48,7 @@
 #define MAX_CONN_PARAMS_UPDATE_COUNT     3                                          /**< Number of attempts before giving up the connection parameter negotiation. */
 
 #define SECURITY_REQUEST_DELAY          APP_TIMER_TICKS(4000, APP_TIMER_PRESCALER)  /**< Delay after connection until security request is sent, if necessary (ticks). */
+#define REALTIME_CLOCK_INTERVAL         APP_TIMER_TICKS(1000, APP_TIMER_PRESCALER)  /**< Real-time clock (ticks for every seconds). */
 
 #define BUTTON_1       17
 #define BUTTON_2       18
@@ -81,8 +82,12 @@ static ble_db_discovery_t        m_ble_db_discovery;                   /**< Stru
 static ble_pixwatch_c_t          m_pixwatch;                           /**< Structure to store the data of the pixwatch service. */
 
 static app_timer_id_t m_sec_req_timer_id;                              /**< Security request timer. */
+static app_timer_id_t m_realtime_timer_id;                             /**< Real-time timer */
 
 static dm_handle_t               m_peer_handle;
+
+/* Current Time */
+time_t current_time = 0;
 
 
 // YOUR_JOB: Use UUIDs for service(s) used in your application.
@@ -112,6 +117,11 @@ static void sec_req_timeout_handler(void * p_context)
     }
 }
 
+static void realtime_timer_handler(void * p_context)
+{
+	current_time++;
+}
+
 static void timers_init(void)
 {
     uint32_t err_code;
@@ -121,6 +131,10 @@ static void timers_init(void)
 
     // Create security request timer.
     err_code = app_timer_create(&m_sec_req_timer_id, APP_TIMER_MODE_SINGLE_SHOT, sec_req_timeout_handler);
+    APP_ERROR_CHECK(err_code);
+
+    // Create real-time timer.
+    err_code = app_timer_create(&m_realtime_timer_id, APP_TIMER_MODE_REPEATED, realtime_timer_handler);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -167,21 +181,7 @@ static void on_pixwatch_c_evt(ble_pixwatch_c_t * p_pixwatch, ble_pixwatch_c_evt_
 
         case BLE_PIXWATCH_C_EVT_LOCAL_TIME:
             printf("Current Time received.\n");
-
-        	time_t timer;
-        	struct tm *t;
-        	timer = p_evt->local_time;
-        	t = localtime(&timer);
-
-            printf("Local Time (Unix Time + Local Offset): %d\n", timer);
-            printf("Year: %d\n",   t->tm_year + 1900);
-            printf("Month: %d\n",   t->tm_mon + 1);
-            printf("Day: %d\n\n", t->tm_mday);
-            printf("Hour: %d\n",   t->tm_hour);
-            printf("Minute: %d\n",   t->tm_min);
-            printf("Second: %d\n\n", t->tm_sec);
-            printf("Day of Week: %d\n", t->tm_wday); // Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6
-
+            current_time = p_evt->local_time;
             break;
 
         default:
@@ -384,6 +384,9 @@ static uint32_t device_manager_evt_handler(dm_handle_t const * p_handle,
             m_peer_handle = (*p_handle);
             err_code      = app_timer_start(m_sec_req_timer_id, SECURITY_REQUEST_DELAY, NULL);
             APP_ERROR_CHECK(err_code);
+
+            err_code      = app_timer_start(m_realtime_timer_id, REALTIME_CLOCK_INTERVAL, NULL);
+            APP_ERROR_CHECK(err_code);
             break;
 
         case DM_EVT_LINK_SECURED:
@@ -457,6 +460,7 @@ static void advertising_init(void)
 {
     uint32_t      err_code;
     ble_advdata_t advdata;
+    ble_advdata_t scanrsp;
 
     // Build advertising data struct to pass into @ref ble_advertising_init.
     memset(&advdata, 0, sizeof(advdata));
@@ -464,20 +468,21 @@ static void advertising_init(void)
     advdata.name_type               = BLE_ADVDATA_FULL_NAME;
     advdata.include_appearance      = true;
     advdata.flags                   = BLE_GAP_ADV_FLAGS_LE_ONLY_LIMITED_DISC_MODE;
-    advdata.uuids_solicited.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
-    advdata.uuids_solicited.p_uuids  = m_adv_uuids;
+
+    memset(&scanrsp, 0, sizeof(scanrsp));
+    scanrsp.uuids_solicited.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
+    scanrsp.uuids_solicited.p_uuids  = m_adv_uuids;
 
     ble_adv_modes_config_t options = {0};
     options.ble_adv_whitelist_enabled = BLE_ADV_WHITELIST_ENABLED;
     options.ble_adv_fast_enabled      = BLE_ADV_FAST_ENABLED;
     options.ble_adv_fast_interval     = APP_ADV_FAST_INTERVAL;
     options.ble_adv_fast_timeout      = APP_ADV_FAST_TIMEOUT;
-
     options.ble_adv_slow_enabled      = BLE_ADV_SLOW_ENABLED;
     options.ble_adv_slow_interval     = APP_ADV_SLOW_INTERVAL;
     options.ble_adv_slow_timeout      = APP_ADV_SLOW_TIMEOUT;
 
-    err_code = ble_advertising_init(&advdata, NULL, &options, on_adv_evt, NULL);
+    err_code = ble_advertising_init(&advdata, &scanrsp, &options, on_adv_evt, NULL);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -490,7 +495,6 @@ static void button_handler(uint8_t pin_no, uint8_t button_action)
         switch(pin_no)
         {
             case BUTTON_1:
-            	printf("button_1 pressed.\n");
                 nrf_gpio_pin_toggle(LED_1);
                 if (m_conn_handle != BLE_CONN_HANDLE_INVALID)
                 {
@@ -503,8 +507,17 @@ static void button_handler(uint8_t pin_no, uint8_t button_action)
                 }
                 break;
             case BUTTON_2:
-            	printf("button_2 pressed.\n");
                 nrf_gpio_pin_toggle(LED_2);
+            	struct tm *t;
+            	t = localtime(&current_time);
+                printf("Local Time (Unix Time + Local Offset): %d\n", current_time);
+                printf("Year: %d\n",   t->tm_year + 1900);
+                printf("Month: %d\n",   t->tm_mon + 1);
+                printf("Day: %d\n", t->tm_mday);
+                printf("Hour: %d\n",   t->tm_hour);
+                printf("Minute: %d\n",   t->tm_min);
+                printf("Second: %d\n", t->tm_sec);
+                printf("Day of Week: %d\n", t->tm_wday); // Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6
                 break;
             case BUTTON_3:
             	printf("button_3 pressed.\n");
