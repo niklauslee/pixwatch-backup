@@ -11,9 +11,6 @@
 #include "ble_advdata.h"
 #include "ble_advertising.h"
 #include "ble_conn_params.h"
-
-#include "ble_pixwatch_c.h"
-
 #include "ble_db_discovery.h"
 #include "softdevice_handler.h"
 #include "app_scheduler.h"
@@ -25,6 +22,10 @@
 #include "app_gpiote.h"
 #include "app_trace.h"
 #include "app_uart.h"
+
+#include "ble_pixwatch_c.h"
+#include "display.h"
+
 
 #define DEVICE_NAME                     "PixWatch"                                 /**< Name of device. Will be included in the advertising data. */
 #define MANUFACTURER_NAME               "MKLab"                                    /**< Manufacturer. Will be passed to Device Information Service. */
@@ -120,6 +121,18 @@ static void sec_req_timeout_handler(void * p_context)
 static void realtime_timer_handler(void * p_context)
 {
 	current_time++;
+
+	struct tm *t;
+	t = localtime(&current_time);
+
+	putDigit(0, 0, t->tm_hour / 10, BLUE, BLACK);
+	putDigit(4, 0, t->tm_hour % 10, BLUE, BLACK);
+
+	putDigit(12, 0, t->tm_min / 10, BLUE, BLACK);
+	putDigit(16, 0, t->tm_min % 10, BLUE, BLACK);
+
+	putDigit(24, 0, t->tm_sec / 10, BLUE, BLACK);
+	putDigit(28, 0, t->tm_sec % 10, BLUE, BLACK);
 }
 
 static void timers_init(void)
@@ -246,8 +259,8 @@ static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
             // APP_ERROR_CHECK(err_code);
             break;
         case BLE_ADV_EVT_IDLE:
-            err_code = sd_power_system_off();
-            APP_ERROR_CHECK(err_code);
+            // err_code = sd_power_system_off();
+            // APP_ERROR_CHECK(err_code);
             break;
 
         case BLE_ADV_EVT_WHITELIST_REQUEST:
@@ -532,10 +545,6 @@ static void button_handler(uint8_t pin_no, uint8_t button_action)
             	printf("button_4 pressed.\n");
                 nrf_gpio_pin_toggle(LED_4);
 
-                time_t t0;
-                uint32_t sz = sizeof(t0);
-                printf("Size of time_t: %d\n", sz);
-
                 break;
             default:
                 break;
@@ -560,6 +569,7 @@ static app_button_cfg_t p_button[] = {  {BUTTON_1, APP_BUTTON_ACTIVE_LOW, NRF_GP
                                         {BUTTON_2, APP_BUTTON_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, button_handler},
                                         {BUTTON_3, APP_BUTTON_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, button_handler},
                                         {BUTTON_4, APP_BUTTON_ACTIVE_LOW, NRF_GPIO_PIN_PULLUP, button_handler}};
+
 
 int main(void)
 {
@@ -602,6 +612,12 @@ int main(void)
     err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
     APP_ERROR_CHECK(err_code);
     printf("Advertising Started!\n");
+
+    // Init display
+    spi_master_init();
+    initDisplay();
+    drawRectangle(0, 0, 127, 95, BLACK);
+
 
     // Enter main loop.
     for (;;)

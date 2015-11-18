@@ -54,6 +54,7 @@
 									<listOptionValue builtIn="false" value="BOARD_PCA10028"/>
 									<listOptionValue builtIn="false" value="NRF51822_QFAA_CA"/>
 									<listOptionValue builtIn="false" value="SWI_DISABLE0"/>
+									<listOptionValue builtIn="false" value="SPI_MASTER_0_ENABLE"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.1896601426" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../src"/>
@@ -69,6 +70,7 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/softdevice/s110/headers"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/trace"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/gpiote"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/spi_master"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/device_manager"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/uart"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/device"/>
@@ -91,6 +93,7 @@
 									<listOptionValue builtIn="false" value="BOARD_PCA10028"/>
 									<listOptionValue builtIn="false" value="NRF51822_QFAA_CA"/>
 									<listOptionValue builtIn="false" value="SWI_DISABLE0"/>
+									<listOptionValue builtIn="false" value="SPI_MASTER_0_ENABLE"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.182106952" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../src"/>
@@ -106,6 +109,7 @@
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/softdevice/s110/headers"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/libraries/trace"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/gpiote"/>
+									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/spi_master"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/ble/device_manager"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/drivers_nrf/uart"/>
 									<listOptionValue builtIn="false" value="../nrf51_sdk/components/device"/>
@@ -182,6 +186,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/gpiote"/>
 						<entry excluding="nrf_adc.c|nrf_ecb.c|nrf_nvmc.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/hal"/>
 						<entry excluding="pstorage_nosd.c|pstorage_raw.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/pstorage"/>
+						<entry excluding="spi_5W_master.c|spi_5W_master.h" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/spi_master"/>
 						<entry excluding="app_uart.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/drivers_nrf/uart"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/button"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf51_sdk/components/libraries/fifo"/>

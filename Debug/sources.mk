@@ -25,6 +25,7 @@ nrf51_sdk/components/drivers_nrf/common \
 nrf51_sdk/components/drivers_nrf/gpiote \
 nrf51_sdk/components/drivers_nrf/hal \
 nrf51_sdk/components/drivers_nrf/pstorage \
+nrf51_sdk/components/drivers_nrf/spi_master \
 nrf51_sdk/components/drivers_nrf/uart \
 nrf51_sdk/components/libraries/button \
 nrf51_sdk/components/libraries/fifo \

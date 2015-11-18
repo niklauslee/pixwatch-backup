@@ -21,6 +21,7 @@ RM := rm -rf
 -include nrf51_sdk/components/libraries/fifo/subdir.mk
 -include nrf51_sdk/components/libraries/button/subdir.mk
 -include nrf51_sdk/components/drivers_nrf/uart/subdir.mk
+-include nrf51_sdk/components/drivers_nrf/spi_master/subdir.mk
 -include nrf51_sdk/components/drivers_nrf/pstorage/subdir.mk
 -include nrf51_sdk/components/drivers_nrf/hal/subdir.mk
 -include nrf51_sdk/components/drivers_nrf/gpiote/subdir.mk
