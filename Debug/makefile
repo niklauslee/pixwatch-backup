@@ -9,27 +9,26 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include src/subdir.mk
--include nrf51_sdk/components/toolchain/gcc/subdir.mk
--include nrf51_sdk/components/toolchain/subdir.mk
--include nrf51_sdk/components/softdevice/common/softdevice_handler/subdir.mk
--include nrf51_sdk/components/libraries/util/subdir.mk
--include nrf51_sdk/components/libraries/uart/subdir.mk
--include nrf51_sdk/components/libraries/trace/subdir.mk
--include nrf51_sdk/components/libraries/timer/subdir.mk
--include nrf51_sdk/components/libraries/scheduler/subdir.mk
--include nrf51_sdk/components/libraries/gpiote/subdir.mk
--include nrf51_sdk/components/libraries/fifo/subdir.mk
--include nrf51_sdk/components/libraries/button/subdir.mk
--include nrf51_sdk/components/drivers_nrf/uart/subdir.mk
--include nrf51_sdk/components/drivers_nrf/spi_master/subdir.mk
--include nrf51_sdk/components/drivers_nrf/pstorage/subdir.mk
--include nrf51_sdk/components/drivers_nrf/hal/subdir.mk
--include nrf51_sdk/components/drivers_nrf/gpiote/subdir.mk
--include nrf51_sdk/components/drivers_nrf/common/subdir.mk
--include nrf51_sdk/components/ble/device_manager/subdir.mk
--include nrf51_sdk/components/ble/common/subdir.mk
--include nrf51_sdk/components/ble/ble_db_discovery/subdir.mk
--include nrf51_sdk/components/ble/ble_advertising/subdir.mk
+-include nrf52_sdk/components/toolchain/gcc/subdir.mk
+-include nrf52_sdk/components/toolchain/subdir.mk
+-include nrf52_sdk/components/softdevice/common/softdevice_handler/subdir.mk
+-include nrf52_sdk/components/libraries/util/subdir.mk
+-include nrf52_sdk/components/libraries/uart/subdir.mk
+-include nrf52_sdk/components/libraries/trace/subdir.mk
+-include nrf52_sdk/components/libraries/timer/subdir.mk
+-include nrf52_sdk/components/libraries/scheduler/subdir.mk
+-include nrf52_sdk/components/libraries/fifo/subdir.mk
+-include nrf52_sdk/components/libraries/button/subdir.mk
+-include nrf52_sdk/components/drivers_nrf/uart/subdir.mk
+-include nrf52_sdk/components/drivers_nrf/spi_master/subdir.mk
+-include nrf52_sdk/components/drivers_nrf/pstorage/subdir.mk
+-include nrf52_sdk/components/drivers_nrf/gpiote/subdir.mk
+-include nrf52_sdk/components/drivers_nrf/delay/subdir.mk
+-include nrf52_sdk/components/drivers_nrf/common/subdir.mk
+-include nrf52_sdk/components/ble/device_manager/subdir.mk
+-include nrf52_sdk/components/ble/common/subdir.mk
+-include nrf52_sdk/components/ble/ble_db_discovery/subdir.mk
+-include nrf52_sdk/components/ble/ble_advertising/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -62,7 +61,7 @@ all: pixwatch.elf secondary-outputs
 pixwatch.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m0 -mthumb -mfloat-abi=soft -mabi=aapcs -O0 -fmessage-length=0 -Werror  -g3 -T mem.ld -T sections.ld -L"../ldscripts" -Wl,-Map,"pixwatch.map" --specs=nano.specs -o "pixwatch.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mabi=aapcs -O0 -fmessage-length=0 -ffunction-sections -fdata-sections -fno-builtin -fno-strict-aliasing -Werror  -g3 -T mem.ld -T sections.ld -Xlinker --gc-sections -L"../ldscripts" -Wl,-Map,"pixwatch.map" --specs=nano.specs -o "pixwatch.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
