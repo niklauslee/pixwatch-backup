@@ -1,6 +1,6 @@
 .DS_Store
 Debug/src/**
-Debug/nrf51_sdk/**
+Debug/nrf52_sdk/**
 Debug/*.elf
 Debug/*.hex
 Debug/*.map
