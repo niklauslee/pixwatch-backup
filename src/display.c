@@ -31,7 +31,7 @@ void spi_master_init(void)
         .ss_pin       = SPIM0_SS_PIN,
         .irq_priority = APP_IRQ_PRIORITY_LOW,
         .orc          = 0xCC,
-        .frequency    = NRF_DRV_SPI_FREQ_1M,
+        .frequency    = NRF_DRV_SPI_FREQ_8M,
         .mode         = NRF_DRV_SPI_MODE_3,
         .bit_order    = NRF_DRV_SPI_BIT_ORDER_MSB_FIRST
     };
