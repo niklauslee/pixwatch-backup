@@ -25,7 +25,6 @@
 #include "jswrap_io.h"
 #include "jswrap_date.h" // for non-F1 calendar -> days since 1970 conversion.
 
-#include "communication_interface.h"
 #include "nrf5x_utils.h"
 
 static int init = 0; // Temporary hack to get jsiOneSecAfterStartup() going.
@@ -222,7 +221,7 @@ bool jshIsDeviceInitialised(IOEventFlags device) {
 /** Set up a UART, if pins are -1 they will be guessed */
 void jshUSARTSetup(IOEventFlags device, JshUSARTInfo *inf)
 {
-  uart_init(); // Initializes UART and registers a callback function defined above to read characters into the static variable character.
+  // uart_init(); // Initializes UART and registers a callback function defined above to read characters into the static variable character.
 }
 
 /** Kick a device into action (if required). For instance we may need to set up interrupts */

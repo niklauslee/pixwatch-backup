@@ -52,7 +52,7 @@
 #include "display.h"
 
 #define UART_TX_BUF_SIZE                1024         /**< UART TX buffer size. */
-#define UART_RX_BUF_SIZE                1            /**< UART RX buffer size. */
+#define UART_RX_BUF_SIZE                32           /**< UART RX buffer size. */
 
 #define IS_SRVC_CHANGED_CHARACT_PRESENT 0            /**< Include or exclude the service_changed characteristic. If excluded, the server's database cannot be changed for the lifetime of the device. */
 
@@ -67,7 +67,7 @@
 #define APP_ADV_FAST_TIMEOUT            30           /**< The duration of the fast advertising period (in seconds). */
 
 #define APP_TIMER_PRESCALER             0                                           /**< Value of the RTC1 PRESCALER register. */
-#define APP_TIMER_MAX_TIMERS            (3 + 4)                                     /**< Maximum number of simultaneously created timers. */
+#define APP_TIMER_MAX_TIMERS            (3 + 6)                                     /**< Maximum number of simultaneously created timers. */
 #define APP_TIMER_OP_QUEUE_SIZE         4                                           /**< Size of timer operation queues. */
 
 #define MIN_CONN_INTERVAL               MSEC_TO_UNITS(500, UNIT_1_25_MS)            /**< Minimum acceptable connection interval (0.5 seconds). */
@@ -95,11 +95,6 @@
 #define BUTTON_2       14
 #define BUTTON_3       15
 #define BUTTON_4       16
-
-#define LED_1          17
-#define LED_2          18
-#define LED_3          19
-#define LED_4          20
 
 #define RX_PIN_NUMBER  8
 #define TX_PIN_NUMBER  6
@@ -169,6 +164,12 @@ static void uart_error_handle(app_uart_evt_t * p_event)
     {
         APP_ERROR_HANDLER(p_event->data.error_code);
     }
+    else if (p_event->evt_type == APP_UART_DATA_READY) // There is one byte in the RX FIFO.
+    {
+    	uint8_t character;
+    	while(app_uart_get(&character) != NRF_SUCCESS); // Non blocking.
+    	while (app_uart_put(character) != NRF_SUCCESS);
+    }
 }
 
 static void on_pixwatch_c_evt(ble_pixwatch_c_t * p_pixwatch, ble_pixwatch_c_evt_t * p_evt)
@@ -236,11 +237,11 @@ static void button_handler(uint8_t pin_no, uint8_t button_action)
     if(button_action == APP_BUTTON_PUSH)
     {
     	uint32_t err_code;
+    	struct tm *t;
 
         switch(pin_no)
         {
             case BUTTON_1:
-                nrf_gpio_pin_toggle(LED_1);
                 if (m_conn_handle != BLE_CONN_HANDLE_INVALID)
                 {
                     err_code = ble_pixwatch_c_local_time_read(&m_pixwatch);
@@ -253,8 +254,6 @@ static void button_handler(uint8_t pin_no, uint8_t button_action)
                 break;
 
             case BUTTON_2:
-                nrf_gpio_pin_toggle(LED_2);
-            	struct tm *t;
             	t = localtime(&current_time);
                 printf("Local Time (Unix Time + Local Offset): %d\n", current_time);
                 printf("Year: %d\n",   t->tm_year + 1900);
@@ -268,14 +267,12 @@ static void button_handler(uint8_t pin_no, uint8_t button_action)
 
             case BUTTON_3:
             	printf("button_3 pressed.\n");
-                nrf_gpio_pin_toggle(LED_3);
                 break;
 
             case BUTTON_4:
             	printf("button_4 pressed.\n");
-                nrf_gpio_pin_toggle(LED_4);
-
                 break;
+
             default:
                 break;
         }
@@ -711,17 +708,8 @@ static void advertising_init()
 }
 
 
-static void buttons_leds_init(void) {
+static void buttons_init(void) {
 	uint32_t err_code;
-
-    nrf_gpio_cfg_output(LED_1);
-    nrf_gpio_cfg_output(LED_2);
-    nrf_gpio_cfg_output(LED_3);
-    nrf_gpio_cfg_output(LED_4);
-    nrf_gpio_pin_set(LED_1);
-    nrf_gpio_pin_set(LED_2);
-    nrf_gpio_pin_set(LED_3);
-    nrf_gpio_pin_set(LED_4);
 
 	static app_button_cfg_t p_button[] = {
 			{BUTTON_1, false, NRF_GPIO_PIN_PULLUP, button_handler},
@@ -746,9 +734,9 @@ static void uart_init(void)
     {
         RX_PIN_NUMBER,
         TX_PIN_NUMBER,
-        RTS_PIN_NUMBER,
-        CTS_PIN_NUMBER,
-        APP_UART_FLOW_CONTROL_ENABLED,
+        UART_PIN_DISCONNECTED,
+        UART_PIN_DISCONNECTED,
+        APP_UART_FLOW_CONTROL_DISABLED,
         false,
         UART_BAUDRATE_BAUDRATE_Baud38400
     };
@@ -794,7 +782,7 @@ int main(void)
     // Initialize
     app_trace_init();
     timers_init();
-    buttons_leds_init();
+    buttons_init();
     uart_init();
     printf("PixWatch Start!\n");
     ble_stack_init();
@@ -820,7 +808,7 @@ int main(void)
     for (;;)
     {
         app_sched_execute();
-        power_manage();
+        // power_manage();
     }
 }
 
