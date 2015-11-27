@@ -17,6 +17,10 @@ S_UPPER_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+espruino/gen \
+espruino/libs/math \
+espruino/src \
+espruino/targets/nrf5x \
 nrf52_sdk/components/ble/ble_advertising \
 nrf52_sdk/components/ble/ble_db_discovery \
 nrf52_sdk/components/ble/common \

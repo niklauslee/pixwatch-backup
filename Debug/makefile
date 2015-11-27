@@ -29,6 +29,10 @@ RM := rm -rf
 -include nrf52_sdk/components/ble/common/subdir.mk
 -include nrf52_sdk/components/ble/ble_db_discovery/subdir.mk
 -include nrf52_sdk/components/ble/ble_advertising/subdir.mk
+-include espruino/targets/nrf5x/subdir.mk
+-include espruino/src/subdir.mk
+-include espruino/libs/math/subdir.mk
+-include espruino/gen/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -61,7 +65,7 @@ all: pixwatch.elf secondary-outputs
 pixwatch.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mabi=aapcs -O0 -fmessage-length=0 -ffunction-sections -fdata-sections -fno-builtin -fno-strict-aliasing -Werror  -g3 -T mem.ld -T sections.ld -Xlinker --gc-sections -L"../ldscripts" -Wl,-Map,"pixwatch.map" --specs=nano.specs -o "pixwatch.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mabi=aapcs -O0 -fmessage-length=0 -ffunction-sections -fdata-sections -fno-builtin -fno-strict-aliasing -Werror=implicit-function-declaration  -g3 -T mem.ld -T sections.ld -Xlinker --gc-sections -L"../ldscripts" -Wl,-Map,"pixwatch.map" --specs=nano.specs -o "pixwatch.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
