@@ -41,7 +41,7 @@ bool nrf_utils_get_page(uint32_t addr, uint32_t * page_address, uint32_t * page_
 
 void nrf_utils_erase_flash_page(uint32_t addr)
 {
-  nrf_nvmc_page_erase(addr);
+  // nrf_nvmc_page_erase(addr);
 }
 
 void nrf_utils_read_flash_bytes(uint8_t * buf, uint32_t addr, uint32_t len)
@@ -71,7 +71,7 @@ void nrf_utils_read_flash_bytes(uint8_t * buf, uint32_t addr, uint32_t len)
 
 void nrf_utils_write_flash_bytes(uint32_t addr, uint8_t * buf, uint32_t len)
 {
-  nrf_nvmc_write_bytes(addr, buf, len);
+  // nrf_nvmc_write_bytes(addr, buf, len);
 }
 
 void nrf_utils_gpio_pin_set(uint32_t pin)

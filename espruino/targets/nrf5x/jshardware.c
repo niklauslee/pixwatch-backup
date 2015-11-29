@@ -32,8 +32,8 @@ static int init = 0; // Temporary hack to get jsiOneSecAfterStartup() going.
 void jshInit() 
 {
   jshInitDevices();
-  nrf_utils_lfclk_config_and_start();
-  nrf_utils_rtc1_config_and_start();
+  // nrf_utils_lfclk_config_and_start();
+  // nrf_utils_rtc1_config_and_start();
     
   JshUSARTInfo inf; // Just for show, not actually used...
   jshUSARTSetup(EV_SERIAL1, &inf); // Initialize UART for communication with Espruino/terminal.

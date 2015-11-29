@@ -48,8 +48,13 @@
 #include "softdevice_handler.h"
 #include "app_uart.h"
 #include "app_button.h"
+
 #include "ble_pixwatch_c.h"
 #include "display.h"
+#include "jsdevices.h"
+#include "platform_config.h"
+#include "jsinteractive.h"
+#include "jshardware.h"
 
 #define UART_TX_BUF_SIZE                1024         /**< UART TX buffer size. */
 #define UART_RX_BUF_SIZE                32           /**< UART RX buffer size. */
@@ -168,7 +173,7 @@ static void uart_error_handle(app_uart_evt_t * p_event)
     {
     	uint8_t character;
     	while(app_uart_get(&character) != NRF_SUCCESS); // Non blocking.
-    	while (app_uart_put(character) != NRF_SUCCESS);
+    	jshPushIOCharEvent(EV_SERIAL1, (char) character);
     }
 }
 
@@ -804,11 +809,17 @@ int main(void)
     initDisplay();
     drawRectangle(0, 0, 127, 95, BLACK);
 
+    // Init Espruino
+    jshInit();
+    jsvInit();
+    jsiInit(false);
+
     // Enter main loop
     for (;;)
     {
         app_sched_execute();
         // power_manage();
+        jsiLoop();
     }
 }
 

@@ -43,12 +43,14 @@
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.1124537263" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize.1510078266" name="Print size" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.unit.549226333" name="FPU Type" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.unit" value="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.unit.fpv4spd16" valueType="enumerated"/>
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.other.1747524853" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.other" value="-fno-strict-aliasing" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.other.1747524853" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.other" value="-fno-strict-aliasing -fno-fat-lto-objects -Wl,--allow-multiple-definition" valueType="string"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.nobuiltin.1844590913" name="Disable builtin (-fno-builtin)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.nobuiltin" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.conversion.800624378" name="Warn on implicit conversions (-Wconversion)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.conversion" value="false" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.extrawarn.282885088" name="Enable extra warnings (-Wextra)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.extrawarn" value="false" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.allwarn.1985429309" name="Enable all common warnings (-Wall)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.allwarn" value="false" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.other.57744799" name="Other warning flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.other" value="-Werror=implicit-function-declaration" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.nocommon.1367571048" name="No common unitialized (-fno-common)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.nocommon" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.lto.1066814904" name="Link-time optimizer (-flto)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.lto" value="true" valueType="boolean"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform.2045380535" isAbstract="false" osList="all" superClass="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform"/>
 							<builder buildPath="${workspace_loc:/pixwatch}/Debug" id="ilg.gnuarmeclipse.managedbuild.cross.builder.1253310155" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="ilg.gnuarmeclipse.managedbuild.cross.builder"/>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.1612320012" name="Cross ARM GNU Assembler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler">
@@ -62,6 +64,9 @@
 									<listOptionValue builtIn="false" value="S132"/>
 									<listOptionValue builtIn="false" value="BLE_STACK_SUPPORT_REQD"/>
 									<listOptionValue builtIn="false" value="BSP_UART_SUPPORT"/>
+									<listOptionValue builtIn="false" value="LINK_TIME_OPTIMISATION"/>
+									<listOptionValue builtIn="false" value="ARM"/>
+									<listOptionValue builtIn="false" value="ARM_HAS_OWN_CMSIS"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.1896601426" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.560851127" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
@@ -76,14 +81,16 @@
 									<listOptionValue builtIn="false" value="S132"/>
 									<listOptionValue builtIn="false" value="BLE_STACK_SUPPORT_REQD"/>
 									<listOptionValue builtIn="false" value="BSP_UART_SUPPORT"/>
+									<listOptionValue builtIn="false" value="LINK_TIME_OPTIMISATION"/>
+									<listOptionValue builtIn="false" value="ARM"/>
+									<listOptionValue builtIn="false" value="ARM_HAS_OWN_CMSIS"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.182106952" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="../src"/>
-									<listOptionValue builtIn="false" value="../config"/>
 									<listOptionValue builtIn="false" value="../espruino/src"/>
 									<listOptionValue builtIn="false" value="../espruino/targets/nrf5x"/>
 									<listOptionValue builtIn="false" value="../espruino/gen"/>
 									<listOptionValue builtIn="false" value="../espruino/libs/math"/>
+									<listOptionValue builtIn="false" value="../config"/>
 									<listOptionValue builtIn="false" value="../nrf52_sdk/components/libraries/scheduler"/>
 									<listOptionValue builtIn="false" value="../nrf52_sdk/components/drivers_nrf/config"/>
 									<listOptionValue builtIn="false" value="../nrf52_sdk/components/libraries/fifo"/>
@@ -109,6 +116,7 @@
 									<listOptionValue builtIn="false" value="../nrf52_sdk/components/ble/ble_advertising"/>
 									<listOptionValue builtIn="false" value="../nrf52_sdk/components/libraries/trace"/>
 									<listOptionValue builtIn="false" value="../nrf52_sdk/components/softdevice/common/softdevice_handler"/>
+									<listOptionValue builtIn="false" value="../src"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std.699498883" name="Language standard" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std" useByScannerDiscovery="true" value="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std.gnu99" valueType="enumerated"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.74166743" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
@@ -128,7 +136,7 @@
 								</option>
 							</tool>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.1506455392" name="Cross ARM C Linker" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker">
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.gcsections.1663388936" name="Remove unused sections (-Xlinker --gc-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.gcsections" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.gcsections.1663388936" name="Remove unused sections (-Xlinker --gc-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.gcsections" value="false" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.scriptfile.390486456" name="Script files (-T)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.scriptfile" valueType="stringList">
 									<listOptionValue builtIn="false" value="mem.ld"/>
 									<listOptionValue builtIn="false" value="sections.ld"/>
@@ -137,6 +145,10 @@
 									<listOptionValue builtIn="false" value="&quot;../ldscripts&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.usenewlibnano.1602127694" name="Use newlib-nano (--specs=nano.specs)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.usenewlibnano" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.other.904154493" name="Other linker flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.other" value="-lc -lnosys -Wl,--gc-sections" valueType="string"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.flags.1227046596" name="Linker flags (-Xlinker [option])" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.flags"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.otherobjs.2064079158" name="Other objects" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.otherobjs"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.cref.1384690896" name="Cross reference (-Xlinker --cref)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.cref" value="false" valueType="boolean"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.input.2141477875" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -167,9 +179,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="espruino/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="espruino/gen"/>
 						<entry excluding="descrip.mms|dtestvec.c|ftilib.mak|ftilib.rsp|mod2pi.c|mtst.c|mtst.opt|polevl.asm|README|setprbor.asm|setprec.387|setprec.688|setprec.87|setprelf.387|unix.mak" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="espruino/libs/math"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="espruino/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="espruino/targets/nrf5x"/>
 						<entry excluding="ble_advertising.h" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf52_sdk/components/ble/ble_advertising"/>
 						<entry excluding="ble_db_discovery.h" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="nrf52_sdk/components/ble/ble_db_discovery"/>

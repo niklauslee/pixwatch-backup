@@ -65,7 +65,7 @@ all: pixwatch.elf secondary-outputs
 pixwatch.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mabi=aapcs -O0 -fmessage-length=0 -ffunction-sections -fdata-sections -fno-builtin -fno-strict-aliasing -Werror=implicit-function-declaration  -g3 -T mem.ld -T sections.ld -Xlinker --gc-sections -L"../ldscripts" -Wl,-Map,"pixwatch.map" --specs=nano.specs -o "pixwatch.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mabi=aapcs -O0 -fmessage-length=0 -ffunction-sections -fdata-sections -fno-common -fno-builtin -flto -fno-strict-aliasing -fno-fat-lto-objects -Wl,--allow-multiple-definition -Werror=implicit-function-declaration  -g3 -T mem.ld -T sections.ld -L"../ldscripts" -Wl,-Map,"pixwatch.map" --specs=nano.specs -lc -lnosys -Wl,--gc-sections -o "pixwatch.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
